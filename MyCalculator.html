@@ -73,7 +73,7 @@
 </head>
 <body>
     <div class="calculator">
-        <input type="text" id="display" class="display" disabled>
+        <input type="text" id="display" class="display" disabled >
         <div class="buttons">
         
         <button class="button" onclick="appendNumber(1);">1</button>
@@ -86,20 +86,21 @@
             <button class="button" onclick="appendNumber(7)">7</button>
             <button class="button" onclick="appendNumber(8)">8</button>
             <button class="button" onclick="appendNumber(9)">9</button>
-                        <button class="button" onclick="appendNumber(10)">10</button>
+            <button class="button" onclick="appendNumber(10)">10</button>
             
-
             <button class="button" onclick="appendNumber(11)">J</button>
             <button class="button" onclick="appendNumber(12)">Q</button>
             <button class="button" onclick="appendNumber(13)">K</button>
             
-                        <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button clear" onclick="deleteLastEntry()">Back</button>
         </div>
     </div>
 
     <script>
        
         let keys = []
+        
         
         function compute()
         {
@@ -112,17 +113,47 @@
         	}
         	return sum;
         }
+        
+        function UpdateResultBox()
+        {
+                if(keys.length == 0)
+                {
+                	return '?';
+                }
+                
+        	if(keys.length < 5)
+        	{
+        		return keys.join('+') + '=' + compute();
+        	}
+        	else
+        	{
+        	  let partials = keys.slice();
+        	  while(partials.length > 6)
+        	  {
+        	  	partials.shift();	
+        	  }	
+        	  return '..+' + partials.join('+') + '=' + compute();	
+        	}
+        }
 
         function appendNumber(number) {
             keys.push(number)
-            document.getElementById('display').value = compute();
+            document.getElementById('display').value = UpdateResultBox();
         }
 
        
-
         function clearDisplay() {
             keys = []
-            document.getElementById('display').value = '';
+            document.getElementById('display').value = UpdateResultBox();
+        }
+        
+        function deleteLastEntry()
+        {
+        	if(keys.length > 0)
+        	{
+        		keys.pop();
+        		document.getElementById('display').value = UpdateResultBox();
+        	}
         }
     </script>
 </body>
