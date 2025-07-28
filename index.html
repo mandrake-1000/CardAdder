@@ -1,0 +1,161 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+            margin: 0;
+        }
+        .calculator {
+            width: 100%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+        }
+        .display {
+            width: 100%;
+            height: 50px;
+            text-align: right;
+            font-size: 1rem;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            background-color: #ffeb3b;
+            border-radius: 8px;
+            color: #333;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .button {
+            background-color: #03a9f4;
+            border: none;
+            font-size: 1rem;
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+            color: white;
+        }
+        .button:hover {
+            background-color: #0288d1;
+            transform: scale(1.1);
+        }
+        .button:active {
+            transform: scale(0.95);
+        }
+        .button.clear {
+            background-color: #ff5722;
+        }
+        .button.clear:hover {
+            background-color: #e64a19;
+        }
+        .button.equal {
+            background-color: #8bc34a;
+        }
+        .button.equal:hover {
+            background-color: #689f38;
+        }
+        .button.operator {
+            background-color: #ff9800;
+        }
+        .button.operator:hover {
+            background-color: #f57c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+    	<H1>Card Adder</H1>
+        <input type="text" id="display" class="display" disabled >
+        <div class="buttons">
+        
+        <button class="button" onclick="appendNumber(1);">1</button>
+            <button class="button" onclick="appendNumber(2)">2</button>
+            <button class="button" onclick="appendNumber(3)">3</button>
+            <button class="button" onclick="appendNumber(4)">4</button>
+
+            <button class="button" onclick="appendNumber(5)">5</button>
+            <button class="button" onclick="appendNumber(6)">6</button>
+            <button class="button" onclick="appendNumber(7)">7</button>
+            <button class="button" onclick="appendNumber(8)">8</button>
+            <button class="button" onclick="appendNumber(9)">9</button>
+            <button class="button" onclick="appendNumber(10)">10</button>
+            
+            <button class="button" onclick="appendNumber(11)">J</button>
+            <button class="button" onclick="appendNumber(12)">Q</button>
+            <button class="button" onclick="appendNumber(13)">K</button>
+            
+            <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button clear" onclick="deleteLastEntry()">Back</button>
+        </div>
+    </div>
+
+    <script>
+       
+        let keys = []
+        
+        function compute()
+        {
+        	let sum = 0;
+        	let i = 0;
+        	while(i < keys.length)
+        	{
+        		sum = sum + keys[i];
+        		i++;
+        	}
+        	return sum;
+        }
+        
+        function UpdateResultBox()
+        {
+                if(keys.length == 0)
+                {
+                	return '?';
+                }
+                
+        	if(keys.length < 5)
+        	{
+        		return keys.join('+') + '=' + compute();
+        	}
+        	else
+        	{
+        	  let partials = keys.slice();
+        	  while(partials.length > 6)
+        	  {
+        	  	partials.shift();	
+        	  }	
+        	  return '..+' + partials.join('+') + '=' + compute();	
+        	}
+        }
+
+        function appendNumber(number) {
+            keys.push(number)
+            document.getElementById('display').value = UpdateResultBox();
+        }
+
+       
+        function clearDisplay() {
+            keys = []
+            document.getElementById('display').value = UpdateResultBox();
+        }
+        
+        function deleteLastEntry()
+        {
+        	if(keys.length > 0)
+        	{
+        		keys.pop();
+        		document.getElementById('display').value = UpdateResultBox();
+        	}
+        }
+    </script>
+</body>
+</html>
